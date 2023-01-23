@@ -2,7 +2,7 @@ import openai
 import tkinter as tk
 from tkinter import messagebox
 
-openai.api_key = "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"
+openai.api_key = "sk-D8nm4UyMuHKEEp99pb44T3BlbkFJgRx5IzG48TtKy1uaBiA"
 
 
 # Get the prediction from GPT-3
