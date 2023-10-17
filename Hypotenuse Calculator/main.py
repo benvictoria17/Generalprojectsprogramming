@@ -9,5 +9,11 @@ leg2 = float(input("Please enter the length of the other leg: "))
 # Calculate the hypotenuse using the Pythagorean theorem
 hypotenuse = (leg1**2 + leg2**2)**0.5
 
-# Display the result
+# Display the hypotenuse
 print(f"The length of your hypotenuse is: {hypotenuse}")
+
+# Calculate the area of the triangle
+area = 0.5 * leg1 * leg2
+
+# Display the area
+print(f"The area of the triangle is: {area}")
