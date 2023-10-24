@@ -1,25 +1,3 @@
-# For this assignment, I would like you to take your adding game and add a feature that asks the user if they want another addition question.  This should use a recursive function call in order to ask another question (so that means your addition question asking must be part of a function).
-
-# Take your time as this can be confusing the first time (and we are going to look at a way better way in chapter 7) - don't forget that you can look at the solution if you are totally stuck or ask Mr. Laird for help.
-
-# Program should look something like this:
-
-# Welcome to the Adding Game
-
-# What is 9 + 32: 41
-# Yeah! You got it correct
-
-# Would you like another question (y/n)?: y
-
-# What is 10 + 2: 12
-# Yeah! You got it correct
-
-# Would you like another question (y/n)?: n
-
-# Okay.... bye!
-
-
-
 # Importing the random Module
 # We begin by telling the computer to use a special toolbox called "random" that helps us generate random numbers.
 
@@ -74,3 +52,16 @@ while True:
 
 # Display a farewell message
 print("Okay.... bye!")
+
+# This code defines a recursive function called factorial that takes a parameter n.
+
+# If the value of n is equal to 0, the function returns 1, indicating the base case of the factorial.
+# If the value of n is not equal to 0, the function uses recursion to calculate the factorial by multiplying n by the factorial of n-1.
+# The function continues to call itself with a smaller value of n until it reaches the base case.
+
+## recursive function
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)
