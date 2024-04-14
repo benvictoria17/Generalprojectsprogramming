@@ -1,0 +1,84 @@
+import tkinter as tk
+from transformers import BertTokenizer, TFBertForSequenceClassification
+
+# Define your Hugging Face tokens here
+user_access_tokens = "<your_user_access_tokens_here>"
+
+# Load tokenizer and model
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = TFBertForSequenceClassification.from_pretrained('bert-base-uncased')
+
+# Define your training and validation datasets
+train_texts = [...]  # List of training texts
+train_labels = [...]  # List of corresponding training labels
+val_texts = [...]  # List of validation texts
+val_labels = [...]  # List of corresponding validation labels
+
+# Tokenize the texts
+train_encodings = tokenizer(train_texts, truncation=True, padding=True)
+val_encodings = tokenizer(val_texts, truncation=True, padding=True)
+
+# Create TensorFlow datasets
+train_dataset = tf.data.Dataset.from_tensor_slices((
+    dict(train_encodings),
+    train_labels
+))
+val_dataset = tf.data.Dataset.from_tensor_slices((
+    dict(val_encodings),
+    val_labels
+))
+
+# Define training arguments
+training_args = TrainingArguments(
+    per_device_train_batch_size=8,
+    per_device_eval_batch_size=16,
+    evaluation_strategy='epoch',
+    logging_dir='./logs',
+    num_train_epochs=3,
+)
+
+# Define trainer
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+    eval_dataset=val_dataset,
+)
+
+# Fine-tune the model
+trainer.train()
+
+# Evaluate the model
+eval_results = trainer.evaluate(eval_dataset=val_dataset)
+print("Evaluation Results:", eval_results)
+
+# Define GUI functions
+def generate_response():
+    question = question_entry.get()
+    encoded_input = tokenizer(question, truncation=True, padding=True, return_tensors="tf")
+    output = model(**encoded_input)
+    prediction = tf.argmax(output.logits, axis=1).numpy()[0]
+    response_text.delete(1.0, tk.END)
+    response_text.insert(tk.END, f"Predicted class: {prediction}")
+
+# Create the GUI
+root = tk.Tk()
+root.title("BERT Fine-Tuning GUI")
+
+# Question input
+question_label = tk.Label(root, text="Enter your question:")
+question_label.pack()
+question_entry = tk.Entry(root, width=50)
+question_entry.pack()
+
+# Response text box
+response_label = tk.Label(root, text="Generated response:")
+response_label.pack()
+response_text = tk.Text(root, height=10, width=50)
+response_text.pack()
+
+# Generate response button
+generate_button = tk.Button(root, text="Generate Response", command=generate_response)
+generate_button.pack()
+
+root.mainloop()
